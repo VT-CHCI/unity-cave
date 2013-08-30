@@ -36,7 +36,7 @@ function OnPlayerConnected(player: NetworkPlayer) {
 	var test = new GameObject();
 	test.AddComponent(NetworkView);
 	
-	var testScript = test.AddComponent(playerWindow);
+	var testScript = test.AddComponent(PlayerWindow);
 	testScript.init(Vector2 (10,10), player, windowCounter, true);
 	
 	windowCounter++;

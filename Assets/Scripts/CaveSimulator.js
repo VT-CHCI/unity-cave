@@ -1,5 +1,7 @@
 ﻿#pragma downcast
 
+import System.Text.RegularExpressions;
+
 private var windowSize : Rect = Rect (20, Screen.height - 220, 200, 200);
 private var avatarSize = 15;
 private var caveSize = 200;
@@ -11,9 +13,12 @@ private var t1 : Rect = Rect (caveSize/2 - avatarSize/2,caveSize/2 - avatarSize/
 public var cave : GameObject;
 public var caveWidth = 2.5;
 
-private var windowRect : Rect = Rect (Screen.width - 150, Screen.height - 150, 120, 130);
-public var cameras : GameObject;
+private var windowRect : Rect = Rect (Screen.width - 220, Screen.height - 150, 200, 130);
+private var selStrings : String[] = ["Front Top", "Front Bottom", "Left Top", "Left Bottom", "Right Top", "Right Bottom", "Floor Top", "Floor Bottom"];
+private var selGridInt = 0;
+private var selGridCheck = 0;
 
+public var cameras : GameObject;
 public var showGUI = true;
 
 // Make the contents of the window
@@ -45,31 +50,36 @@ function viewCamera (position: String) {
 	for (var camera : Camera in cameras.GetComponentsInChildren(Camera)) {
 		if (camera.name.Contains(position)) {
 			camera.depth = 1;
+			camera.enabled = true;
 		}
 		else {
 			camera.depth = 0;
+			camera.enabled = false;
 		}
 	}
 }
 
 function cameraChooser (windowID: int) {
-	if (GUI.Button (Rect (10,20,100,20), "Front")) {
-			viewCamera("Front");
-	}
-	else if (GUI.Button (Rect (10,45,100,20), "Left")) {
-			viewCamera("Left");
-	}
-	else if (GUI.Button (Rect (10,70,100,20), "Right")) {
-			viewCamera("Right");
-	}
-	else if (GUI.Button (Rect (10,95,100,20), "Bottom")) {
-			viewCamera("Bottom");
-	}
+	selGridInt = GUI.SelectionGrid (Rect (10,25,180,100), selGridInt, selStrings, 2);
 }
 
 function OnGUI () {
 	if (showGUI) {
 		GUI.Window (0, windowSize, caveSim, "CAVE View");
+		//GUI.Window (1, windowRect, cameraChooser, "Camera Select");
 		GUI.Window (1, windowRect, cameraChooser, "Camera Select");
+	}
+}
+
+function Update() {
+
+	if (selGridInt != selGridCheck) {
+		//print(selStrings[selGridInt]);
+		selGridCheck = selGridInt;
+		
+		var line = selStrings[selGridInt];
+		line = Regex.Replace(line, "( )+", "");
+		
+		viewCamera(line);
 	}
 }

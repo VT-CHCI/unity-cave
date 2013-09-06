@@ -5,13 +5,14 @@ private var useNat = false;
 private var windowCounter = 3;
 private var players = new Array();
 
+public var showCaveSim = false;
 
 function Start() {
 	gameObject.AddComponent(MouseLook);
 	gameObject.AddComponent(FPSInputController);
 	
-	var sim = gameObject.GetComponent(CaveSimulator);
-	sim.showGUI = true;
+	if (showCaveSim)
+		gameObject.AddComponent(CaveSimulator);
 	
 	startServer();
 }

@@ -19,7 +19,11 @@ private var selGridInt = 0;
 private var selGridCheck = 0;
 
 public var cameras : GameObject;
-public var showGUI = true;
+
+function Start() {
+	cameras = GameObject.Find("Cameras");
+	cave = GameObject.Find("Walls");
+}
 
 // Make the contents of the window
 function caveSim (windowID : int) {
@@ -64,11 +68,9 @@ function cameraChooser (windowID: int) {
 }
 
 function OnGUI () {
-	if (showGUI) {
-		GUI.Window (0, windowSize, caveSim, "CAVE View");
-		//GUI.Window (1, windowRect, cameraChooser, "Camera Select");
-		GUI.Window (1, windowRect, cameraChooser, "Camera Select");
-	}
+	GUI.Window (0, windowSize, caveSim, "CAVE View");
+	//GUI.Window (1, windowRect, cameraChooser, "Camera Select");
+	GUI.Window (1, windowRect, cameraChooser, "Camera Select");
 }
 
 function Update() {

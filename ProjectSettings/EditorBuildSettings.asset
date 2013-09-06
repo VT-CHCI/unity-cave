@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/server.unity
+    path: Assets/Standard Assets/Scenes/server.unity
   - enabled: 0
-    path: Assets/client-test.unity
+    path: Assets/Standard Assets/Scenes/client-test.unity
   - enabled: 1
-    path: Assets/off-axis projection test.unity
+    path: Assets/Standard Assets/Scenes/off-axis projection test.unity

@@ -7,7 +7,20 @@ private var players = new Array();
 
 public var showCaveSim = false;
 
+function setCamera (position: String) {
+	for (var camera : Camera in Camera.allCameras) {
+		if (camera.name.Contains(position)) {
+			camera.enabled = true;
+		}
+		else {
+			camera.enabled = false;
+		}
+	}
+}
+
 function Start() {
+	setCamera("ServerView");
+	
 	gameObject.AddComponent(MouseLook);
 	gameObject.AddComponent(FPSInputController);
 	
@@ -32,6 +45,7 @@ function startServer() {
 }
 
 function OnPlayerConnected(player: NetworkPlayer) {
+	/*
 	players.Add(player);
 	
 	var test = new GameObject();
@@ -43,6 +57,7 @@ function OnPlayerConnected(player: NetworkPlayer) {
 	windowCounter++;
 	
 	Debug.Log("Player connected from " + player.ipAddress + ":" + player.port);
+	*/
 }
 
 // Messages

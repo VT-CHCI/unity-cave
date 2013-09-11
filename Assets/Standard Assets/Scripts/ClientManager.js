@@ -9,6 +9,8 @@ private var endClient = false;
 
 private var players = new Array();
 
+public var AR = false;
+
 function setCamera (position: String) {
 	for (var camera : Camera in Camera.allCameras) {
 		if (camera.name.Contains(position)) {
@@ -25,39 +27,43 @@ function Start() {
 	
 	
 	//print (Application.dataPath);
-	var debugger:Debugger = gameObject.GetComponent("Debugger");
-	debugger.setText(Application.dataPath);
 	
-	var asset:String;
-	
-	if (System.IO.File.Exists(Application.dataPath+"/Resources/config.xml")) {
-		asset = System.IO.File.ReadAllText(Application.dataPath+"/Resources/config.xml");
+	if (!AR) { 
+		var debugger:Debugger = gameObject.GetComponent("Debugger");
+		debugger.setText(Application.dataPath);
 		
-		if(asset != null) {
-	        var reader:XmlTextReader = new XmlTextReader(new StringReader(asset));
-	        while(reader.Read()) {
-	            if(reader.Name == "wallPosition") {
-	            	setCamera(reader.GetAttribute("label"));
-	            }
-	            if(reader.Name == "wallResolution") {
-	            	var fullscreen:boolean;
-	            	
-	            	if (reader.GetAttribute("fullscreen") == true) {
-	            		fullscreen = true;
-	            	} else {
-	            		fullscreen = false;
-	            	}
-	            	
-	            	Screen.SetResolution(int.Parse(reader.GetAttribute("width")),int.Parse(reader.GetAttribute("height")),fullscreen);
-	            }
-	        }
-	    }
-    
-		debugger.setText("Found external config");
+		var asset:String;
+		
+		if (System.IO.File.Exists(Application.dataPath+"/Resources/config.xml")) {
+			asset = System.IO.File.ReadAllText(Application.dataPath+"/Resources/config.xml");
+			
+			if(asset != null) {
+		        var reader:XmlTextReader = new XmlTextReader(new StringReader(asset));
+		        while(reader.Read()) {
+		            if(reader.Name == "wallPosition") {
+		            	setCamera(reader.GetAttribute("label"));
+		            }
+		            if(reader.Name == "wallResolution") {
+		            	var fullscreen:boolean;
+		            	
+		            	if (reader.GetAttribute("fullscreen") == true) {
+		            		fullscreen = true;
+		            	} else {
+		            		fullscreen = false;
+		            	}
+		            	
+		            	Screen.SetResolution(int.Parse(reader.GetAttribute("width")),int.Parse(reader.GetAttribute("height")),fullscreen);
+		            }
+		        }
+		    }
+	    
+			debugger.setText("Found external config");
+		} else {
+			debugger.setText("Using internal config");
+		}
 	} else {
-		debugger.setText("Using internal config");
+		setCamera("AR");
 	}
-	
     
     
 	Network.Connect("console.sv.vt.edu", 25001);

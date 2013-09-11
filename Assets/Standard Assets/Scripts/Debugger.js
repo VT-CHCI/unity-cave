@@ -11,7 +11,8 @@ private var scrollPosition : Vector2 = Vector2.zero;
 public var text = "";
 
 function setText (newText: String) {
-	text = newText + "\n" + text; 
+	text = newText + "\n" + text;
+	Debug.Log(newText);
 }
 
 function OnGUI () {
